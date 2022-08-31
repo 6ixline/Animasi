@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator,StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -27,6 +27,7 @@ const Episodewatch = ({route}) => {
   }
 
   useEffect(()=>{
+    let isCancelled = false;
     async function getVideoUrl(){
       const videoId = route.params.id
       const VideoData = await getAnimeVideoLink(videoId);
@@ -37,13 +38,24 @@ const Episodewatch = ({route}) => {
       setvideoStatus(false)
 
     }
+    if(!isCancelled){
+      getVideoUrl();
+    }
 
-    getVideoUrl();
+    return ()=>{
+      isCancelled = true
+    }
+
+   
   }, [])
 
   return (
     <View style={{flex: 1}}>
-     { videoStatus ? <ActivityIndicator size="large" /> : (<Video
+     { videoStatus ?  (
+            <View style={styles.contianer}>
+                <ActivityIndicator size="large" />
+            </View>
+            ) : (<Video
       source={{ uri: videoUrl, headers: {"Referer": Referer,"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"} }}
       rate={1.0}
       volume={1.0}
@@ -61,5 +73,14 @@ const Episodewatch = ({route}) => {
     </View>
   )
 }
+
+
+const styles = StyleSheet.create({
+  contianer:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 export default Episodewatch
