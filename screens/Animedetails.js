@@ -36,7 +36,7 @@ const Animedetails = ({route, navigation}) => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, justifyContent: 'center',  alignItems: 'center'}}>
     { 
       checkData ? (
         <View style={styles.container}>
@@ -84,15 +84,14 @@ const Animedetails = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+
   },
   mainContent:{
-    flex: 1
+    flex: 1,
   },
   firsthalf:{
     height: "38%",
-    position: "relative"
+    position: "relative",
   },
   bannerImage:{
     height: "100%"
