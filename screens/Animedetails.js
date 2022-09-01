@@ -16,7 +16,7 @@ const Animedetails = ({route, navigation}) => {
     async function getAnimeDetails (){
       const animeData = await getAnimeInfo(id)
       setAnimeDetails(animeData);
-      setepisodeList(animeData.episodes)
+      setepisodeList(animeData.episodes.reverse())
       setcheckData(false);
     }
 
@@ -36,32 +36,28 @@ const Animedetails = ({route, navigation}) => {
   }
 
   return (
-    <View style={{flex: 1, justifyContent: 'center',  alignItems: 'center'}}>
+    <View style={{flex: 1}}>
     { 
       checkData ? (
         <View style={styles.container}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="auto" />
         </View>
       ) :
       (<View style={styles.mainContent}>
         <View style={styles.firsthalf}>
         <ImageBackground style={styles.bannerImage} source={{uri: animeDetails.image}}>
-          <LinearGradient   colors={["#bfafb2", "#000","#000"]} style={styles.overlay}></LinearGradient>
+          <LinearGradient   colors={["#bfafb2","#000"]} style={styles.overlay}></LinearGradient>
           <Text style={styles.AnimeTitle}>{animeDetails.title}</Text>
         </ImageBackground>
         </View>
-        <View style={{paddingHorizontal: 10, paddingTop: 20}}>
-          <Text style={{fontWeight: 'bold', paddingBottom: 5}}>Description</Text>
-          <Text style>{animeDetails.description}</Text>
-          <Text style={{fontWeight: 'bold', paddingVertical:10 }}>Geners</Text>
-          <Text>{(animeDetails.genres.join(", "))}</Text>
-        </View>
+       
 
          
         <View style={{paddingHorizontal: 10, flex: 1}}>
-          <Text style={{fontWeight: 'bold', paddingVertical: 15}}>Episode List</Text>
+          
             <View style={{flex: 1, height: 200}}>
                 <FlatList
+                
                   style={{flex: 1}}
                   data={episodeLists}
                   renderItem={({item})=>(
@@ -71,6 +67,19 @@ const Animedetails = ({route, navigation}) => {
                   )}
                   keyExtractor={(item)=>item.number}
                   numColumns={4}
+                   showsVerticalScrollIndicator={false}
+                 ListHeaderComponent={
+
+                  <>
+                    <View style={{paddingTop: 20}}>
+                      <Text style={{fontWeight: 'bold', paddingBottom: 5}}>Description</Text>
+                      <Text style>{animeDetails.description}</Text>
+                      <Text style={{fontWeight: 'bold', paddingVertical:10 }}>Geners</Text>
+                      <Text>{(animeDetails.genres?.join(", "))}</Text>
+                    </View>
+                  <Text style={{fontWeight: 'bold', paddingVertical: 15}}>Episode List</Text>
+                  </>
+                }
                 />
             </View>
         </View>
@@ -84,13 +93,15 @@ const Animedetails = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: "center"
 
   },
   mainContent:{
     flex: 1,
   },
   firsthalf:{
-    height: "38%",
+    height: "24%",
     position: "relative",
   },
   bannerImage:{

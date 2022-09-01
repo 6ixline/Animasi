@@ -8,6 +8,22 @@ export async function topAiring(){
         return [];
     }
 }
+export async function recentEpisode(){
+    try {
+        const data = await axios.get("https://consumet-api.herokuapp.com/anime/gogoanime/recent-episodes");
+        return data.data.results;
+    } catch (error) {
+        return [];
+    }
+}
+export async function searchEpisode(query){
+    try {
+        const data = await axios.get(`https://consumet-api.herokuapp.com/anime/gogoanime/${query}`);
+        return data.data.results;
+    } catch (error) {
+        return [];
+    }
+}
 export async function getAnimeInfo(id){
     try {
         const data = await axios.get(`https://consumet-api.herokuapp.com/anime/gogoanime/info/${id}`);

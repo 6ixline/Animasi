@@ -11,6 +11,8 @@ const Episodewatch = ({route}) => {
   const [Referer, setReferer] = useState('');
   const [videoStatus, setvideoStatus] = useState(true);
 
+
+
   function setOrientation() {
     if (Dimensions.get('window').height > Dimensions.get('window').width) {
 
@@ -34,7 +36,6 @@ const Episodewatch = ({route}) => {
 
       setVideoUrl(VideoData.sources[1].url);
       setReferer(VideoData.headers.Referer)
-      console.log(VideoData.headers)
       setvideoStatus(false)
 
     }
@@ -62,7 +63,7 @@ const Episodewatch = ({route}) => {
       isMuted={false}
       resizeMode="contain"
       shouldPlay
-      onFullscreenUpdate={setOrientation}
+      // onFullscreenUpdate={setOrientation}
       isLooping
       style={{ width: "100%", height: 250 }}
       useNativeControls

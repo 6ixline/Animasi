@@ -1,6 +1,8 @@
-import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity, FlatList, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { topAiring } from '../utils/data'
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 const Home = ({navigation}) => {
 
@@ -14,7 +16,6 @@ const Home = ({navigation}) => {
                 let data = await topAiring();
                 setTopAiringAnime(data);
                 settrackData(false);
-                console.log(topAiringAnime[0])
             } catch (error) {
                 console.log(error)
             }
@@ -37,6 +38,10 @@ const Home = ({navigation}) => {
         });
     }
 
+    function handleSearch(){
+        navigation.navigate("Search");
+    }
+
     return (
 
         <>
@@ -51,6 +56,9 @@ const Home = ({navigation}) => {
             <View style={styles.mainContainer}>
                 <View style={styles.Header}>
                     <Text style={styles.title}>Animasi</Text>
+                    <Pressable onPress={handleSearch}>
+                        <Ionicons name="search-outline" size={28} color="black" />
+                    </Pressable>
                 </View>
                 <FlatList
                 data={topAiringAnime}    
@@ -61,7 +69,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item)=> item.id}
-                numColumns={2}
+                numColumns={3}
                 showsVerticalScrollIndicator={false}
                 />
             </View>
@@ -88,22 +96,24 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#d8d8d8",
         paddingBottom: 18,
-        marginBottom: 10
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        marginHorizontal: 20
     },
     title:{
         fontSize: 24,
         fontWeight: 'bold',
-        marginHorizontal: 20
     },
     cardBody:{
         marginHorizontal: 10,
-        width: 190,
+        width: "28%",
         elevation: 4,
         marginVertical: 5
     },
     cardImage:{
         width: "100%",
-        height: 250,
+        height: 120,
         borderRadius: 10,
     },
     cardTitle:{
