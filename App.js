@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Animedetails from './screens/Animedetails';
 import Episodewatch from './screens/Episodewatch';
+import Search from './screens/Search';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ export default function App() {
             <Stack.Screen  name='Home' component={Home} options={{ headerShown: false }} />
             <Stack.Screen  name='Animedetails' component={Animedetails} options={{ headerShown: false }}  />
             <Stack.Screen  name='Episodewatch' component={Episodewatch} options={{ headerShown: false }}  />
+            <Stack.Screen  name='Search' component={Search} options={{ headerShown: false }}  />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

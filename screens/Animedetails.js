@@ -36,11 +36,11 @@ const Animedetails = ({route, navigation}) => {
   }
 
   return (
-    <View style={{flex: 1, justifyContent: 'center',  alignItems: 'center'}}>
+    <View style={{flex: 1}}>
     { 
       checkData ? (
         <View style={styles.container}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="auto" />
         </View>
       ) :
       (<View style={styles.mainContent}>
@@ -54,7 +54,7 @@ const Animedetails = ({route, navigation}) => {
           <Text style={{fontWeight: 'bold', paddingBottom: 5}}>Description</Text>
           <Text style>{animeDetails.description}</Text>
           <Text style={{fontWeight: 'bold', paddingVertical:10 }}>Geners</Text>
-          <Text>{(animeDetails.genres.join(", "))}</Text>
+          <Text>{(animeDetails.genres?.join(", "))}</Text>
         </View>
 
          
@@ -84,6 +84,8 @@ const Animedetails = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: "center"
 
   },
   mainContent:{
