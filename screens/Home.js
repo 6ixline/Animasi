@@ -69,7 +69,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item)=> item.id}
-                numColumns={2}
+                numColumns={3}
                 showsVerticalScrollIndicator={false}
                 />
             </View>
@@ -107,13 +107,13 @@ const styles = StyleSheet.create({
     },
     cardBody:{
         marginHorizontal: 10,
-        width: 190,
+        width: "28%",
         elevation: 4,
         marginVertical: 5
     },
     cardImage:{
         width: "100%",
-        height: 250,
+        height: 120,
         borderRadius: 10,
     },
     cardTitle:{

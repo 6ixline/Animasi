@@ -25,14 +25,15 @@ const Search = ({navigation}) => {
 
     useEffect(()=>{
         let isCancelled = false;
-        async function searchEpisode(){
+        async function search(){
             const recentData =  await searchEpisode(searchText);
             setsearchList(recentData);
         }
 
         if(!isCancelled){
-
-            searchEpisode();
+            if(searchText != ""){
+                search();
+            }
         }
 
         return ()=>{
