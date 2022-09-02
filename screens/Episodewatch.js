@@ -34,8 +34,7 @@ const Episodewatch = ({route}) => {
     async function getVideoUrl(){
       const videoId = route.params.id
       const VideoData = await getAnimeVideoLink(videoId);
-
-      setVideoUrl(VideoData.sources[1].url);
+      setVideoUrl(VideoData.sources[0].url);
       setReferer(VideoData.headers.Referer)
       setvideoStatus(false)
 
