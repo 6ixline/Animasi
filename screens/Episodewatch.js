@@ -1,5 +1,5 @@
 import { View, Text, ActivityIndicator,StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getAnimeVideoLink } from '../utils/data';
@@ -10,6 +10,7 @@ const Episodewatch = ({route}) => {
   const [videoUrl, setVideoUrl] = useState('');
   const [Referer, setReferer] = useState('');
   const [videoStatus, setvideoStatus] = useState(true);
+  const videoRef = useRef(null);
 
 
 
@@ -33,8 +34,7 @@ const Episodewatch = ({route}) => {
     async function getVideoUrl(){
       const videoId = route.params.id
       const VideoData = await getAnimeVideoLink(videoId);
-
-      setVideoUrl(VideoData.sources[1].url);
+      setVideoUrl(VideoData.sources[0].url);
       setReferer(VideoData.headers.Referer)
       setvideoStatus(false)
 
@@ -56,21 +56,28 @@ const Episodewatch = ({route}) => {
             <View style={styles.contianer}>
                 <ActivityIndicator size="large" />
             </View>
-            ) : (<Video
-      source={{ uri: videoUrl, headers: {"Referer": Referer,"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"} }}
-      rate={1.0}
-      volume={1.0}
-      isMuted={false}
-      resizeMode="contain"
-      shouldPlay
-      // onFullscreenUpdate={setOrientation}
-      isLooping
-      style={{ width: "100%", height: 250 }}
-      useNativeControls
-      onError={(e)=>{
-        console.log(e)
-      }}
-      />) }
+            ) : 
+            (
+            <Video
+              source={{ uri: videoUrl, headers: {"Referer": Referer,"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"} }}
+              ref={videoRef}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="contain"
+              shouldPlay
+              onFullscreenUpdate={setOrientation}
+              onLoadStart={()=>{
+                videoRef?.current?.presentFullscreenPlayer();
+              }}
+              style={{ width: "100%", height: 250 }}
+              useNativeControls
+              onError={(e)=>{
+                console.log(e)
+              }}
+              />
+            )
+          }
     </View>
   )
 }
