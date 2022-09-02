@@ -1,7 +1,8 @@
-import { View, Text, ImageBackground, ActivityIndicator, StyleSheet, FlatList,SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text, ImageBackground, ActivityIndicator, Image,StyleSheet, FlatList,Pressable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAnimeInfo } from '../utils/data';
 import { LinearGradient } from "expo-linear-gradient";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const Animedetails = ({route, navigation}) => {
@@ -47,7 +48,11 @@ const Animedetails = ({route, navigation}) => {
         <View style={styles.firsthalf}>
         <ImageBackground style={styles.bannerImage} source={{uri: animeDetails.image}}>
           <LinearGradient   colors={["#bfafb2","#000"]} style={styles.overlay}></LinearGradient>
+          <Pressable onPress={navigation.goBack} style={{position: 'absolute', top: "18%", left: "5%"}}>
+              <Ionicons name="arrow-back-outline" size={28} color="#fff" />
+          </Pressable>
           <Text style={styles.AnimeTitle}>{animeDetails.title}</Text>
+          <Image  source={{uri: animeDetails.image}} style={styles.CoverImage} />
         </ImageBackground>
         </View>
        
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   firsthalf:{
-    height: "24%",
+    height: "26%",
     position: "relative",
   },
   bannerImage:{
@@ -118,7 +123,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     position: "absolute",
     bottom: 20,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    width: "60%"
   },
   episodeTitle:{
     borderWidth: 2,
@@ -130,6 +136,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
+  },
+  CoverImage:{
+    height: 180,
+    width: 130,
+    elevation: 10,
+    position: 'absolute',
+    right: "5%",
+    bottom: "-10%",
+    zIndex: 9,
+    borderRadius: 10
   }
 })
 export default Animedetails
