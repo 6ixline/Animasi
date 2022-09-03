@@ -2,8 +2,9 @@ import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity, Fla
 import React, {useEffect, useRef, useState} from 'react'
 import { topAiring, recentEpisode } from '../utils/data'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { LinearGradient } from "expo-linear-gradient";
 import Carousel from 'react-native-anchor-carousel';
+import themeStyles from "../config/styles";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 const {width: windowWidth} = Dimensions.get('window');
@@ -57,16 +58,17 @@ const Home = ({navigation}) => {
         {
             trackData ? (
             <View style={styles.contianer}>
-                <ActivityIndicator size="large" />
+                <ActivityIndicator size="large" color={themeStyles.colors.accentColor} />
             </View>
             ) : 
             (
 
             <View style={styles.mainContainer}>
                 <View style={styles.Header}>
+                    <Image source={require("../assets/logo/logo.png")} style={styles.logo} />
                     <Text style={styles.title}>Animasi</Text>
-                    <Pressable onPress={handleSearch}>
-                        <Ionicons name="search-outline" size={28} color="black" />
+                    <Pressable onPress={handleSearch} style={{paddingHorizontal: 10}}>
+                        <Ionicons name="search-outline" size={28} color={themeStyles.colors.accentColor} />
                     </Pressable>
                 </View>
                 <Carousel
@@ -75,6 +77,7 @@ const Home = ({navigation}) => {
                     renderItem={({item})=>(
                         <TouchableOpacity style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
                             <ImageBackground source={{uri: item.image}} style={styles.carsoulPoster}>
+                                <LinearGradient colors={["#bfafb2","#000"]} style={styles.overlay} />
                                 <Text style={styles.carsoulTitle}>{item.title}</Text>
                             </ImageBackground>
                         </TouchableOpacity>
@@ -87,8 +90,8 @@ const Home = ({navigation}) => {
                 
 
                 <View style={styles.catContainer}>
-                    <Ionicons name="apps-outline" size={28} color="black" />
-                    <Text style={styles.catTitle}>Top Airing Anime</Text>
+                    <Ionicons name="apps-outline" size={18} color={themeStyles.colors.accentColor} />
+                    <Text style={styles.catTitle}>Top <Text style={{fontFamily: "pop-regular"}}>Airing Anime</Text></Text>
                 </View>
 
                 <FlatList
@@ -117,22 +120,32 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        
+        backgroundColor: "#000"
     },
     mainContainer: {
         flex: 1,
+        backgroundColor: "#000"
+
     },
     Header:{
         marginTop: 60,
-        borderColor: "#d8d8d8",
         paddingBottom: 18,
         flexDirection: 'row',
         justifyContent: "space-between",
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+    },
+    logo:{
+        width: 40,
+        height: 40,
+        borderRadius: 5
     },
     title:{
-        fontSize: 24,
-        fontWeight: 'bold',
+        flex: 1,
+        textAlign: "center",
+        fontSize: 28,
+        fontFamily: "lob-bold",
+        color: themeStyles.colors.accentColor,
+        marginBottom: 10
     },
     cardBody:{
         marginHorizontal: 10,
@@ -149,13 +162,30 @@ const styles = StyleSheet.create({
         margin: 2,
         textAlign: 'center',
         fontSize: 14,
-        fontWeight: "bold",
-        padding: 5
+        fontFamily: "pop-medium",
+        padding: 5,
+        color: "#fff"
+    },
+    titleBack:{
+        backgroundColor: "#000",
+        height: "100%",
+        width: "100%",
+        position: 'absolute',
+        opacity: .2,
+        bottom: 0,
     },
     carousel: {
         flexGrow: 1,
-        height: 250
+        height: 250,
+        marginTop: 10
     },
+    overlay:{
+        height: "25%",
+        width: "100%",
+        opacity: .4,
+        bottom: 0,
+        position: 'absolute',
+      }, 
     carouselSlide:{
         width: "100%",
         elevation: 4,
@@ -170,7 +200,7 @@ const styles = StyleSheet.create({
     },
     carsoulTitle:{
         fontSize: 14,
-        fontWeight: "bold",
+        fontFamily: "pop-medium",
         color: '#fff',
         position: 'absolute',
         bottom: 10,
@@ -184,8 +214,9 @@ const styles = StyleSheet.create({
 
     },
     catTitle:{
-        fontWeight: "bold",
-        fontSize: 16,
+        fontSize: 18,
+        color: "#fff",
+        fontFamily: "pop-medium",
         marginHorizontal: 10
     }
 

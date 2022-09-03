@@ -1,6 +1,8 @@
-import { View, Text, StyleSheet, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TextInput, ActivityIndicator, Pressable,TouchableOpacity, Image } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { recentEpisode, searchEpisode } from '../utils/data';
+import themeStyle from '../config/styles';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Search = ({navigation}) => {
     const [searchList, setsearchList] = useState([]);
@@ -51,7 +53,10 @@ const Search = ({navigation}) => {
     <View style={{flex: 1}}>
          <View style={styles.mainContainer}>
                 <View style={styles.Header}>
-                    <TextInput onChangeText={setsearchText} value={searchText} autoFocus placeholder="Enter Anime name..." />
+                    <Pressable onPress={navigation.goBack}>
+                        <Ionicons name="arrow-back-outline" size={28} style={{padding: 10}} color={themeStyle.colors.accentColor} />
+                    </Pressable>
+                    <TextInput placeholderTextColor="#fff" onChangeText={setsearchText} style={styles.textInput} value={searchText} autoFocus placeholder="Search..." />
                 </View>
                 {
                 (searchList.length != 0) ?
@@ -71,9 +76,9 @@ const Search = ({navigation}) => {
                     
                     ) : 
                     (
-                        <KeyboardAvoidingView style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                            <Text>Find you faviroute</Text>
-                        </KeyboardAvoidingView>
+                        <View style={styles.container}>
+                            <ActivityIndicator size="large" color={themeStyle.colors.accentColor} />
+                        </View>
                     )
                 
                 }
@@ -94,16 +99,18 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         flex: 1,
+        backgroundColor: '#000'
     },
     Header:{
         marginTop: 60,
         borderBottomWidth: 1,
-        borderColor: "#d8d8d8",
         paddingBottom: 18,
         marginBottom: 10,
         flexDirection: 'row',
         justifyContent: "space-between",
-        marginHorizontal: 20
+        position: "relative",
+        alignItems: "center"
+
     },
     title:{
         fontSize: 24,
@@ -126,6 +133,15 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
         padding: 5
+    },
+    textInput:{
+        color: "#fff",
+        padding: 10,
+        paddingHorizontal: 15,
+        backgroundColor: "#494F55",
+        flex: 1,
+        marginHorizontal: 10,
+        borderRadius: 10
     }
 })
 
