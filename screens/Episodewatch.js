@@ -37,7 +37,6 @@ const Episodewatch = ({route}) => {
       setVideoUrl(VideoData.sources[0].url);
       setReferer(VideoData.headers.Referer)
       setvideoStatus(false)
-
     }
     if(!isCancelled){
       getVideoUrl();
