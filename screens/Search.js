@@ -4,7 +4,7 @@ import { recentEpisode, searchEpisode } from '../utils/data';
 import themeStyle from '../config/styles';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const Search = ({navigation}) => {
+const Search = ({navigation,route}) => {
     const [searchList, setsearchList] = useState([]);
     const [searchText, setsearchText] = useState('');
 
@@ -45,7 +45,8 @@ const Search = ({navigation}) => {
     
     function handleAnime(id){
         navigation.navigate("Animedetails", {
-            id:id
+            id:id,
+            watchHistory: route.params.watchHistory
         });
     }
      

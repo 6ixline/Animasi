@@ -53,6 +53,7 @@ const Animedetails = ({route, navigation}) => {
     try {
         const data = [animeDetails,...recentAnimeList.filter(item => item.id !== animeDetails.id)];
         setrecentAnimeList(data)
+        route.params.watchHistory(data)
         await storeData(data, 'recentAnimeWatch')
     } catch (error) {
       console.log(error)

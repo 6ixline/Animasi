@@ -27,10 +27,6 @@ const Home = ({navigation}) => {
             try {
                 let data = await topAiring();
                 const recentData =  await recentEpisode();
-                const watchHistoryData = await getData('recentAnimeWatch');
-                if(watchHistoryData !== null){
-                    setwatchHistory(watchHistoryData);
-                }
                 setRecentAnime(recentData);
                 setTopAiringAnime(data);
                 settrackData(false);
@@ -39,29 +35,46 @@ const Home = ({navigation}) => {
             }
             
         }
-
         if(!isCancelled){
             fetchAnime();
         }
-
         return ()=>{
             isCancelled = true;
         }
-    },[watchHistory])
+    },[])
+
+    useEffect(()=>{
+        let isCancelled = false;
+        async function fetchWatchHistory(){
+            const watchHistoryData = await getData('recentAnimeWatch');
+            if(watchHistoryData !== null){
+                setwatchHistory(watchHistoryData);
+            }
+        }
+        if(!isCancelled){
+            fetchWatchHistory();
+        }
+
+        return ()=>{
+            fetchWatchHistory();
+        }
+    },[])
 
 
     function handleAnime(id){
         navigation.navigate("Animedetails", {
-            id:id
+            id:id,
+            watchHistory: setwatchHistory
         });
     }
 
     function handleSearch(){
-        navigation.navigate("Search");
+        navigation.navigate("Search", {
+            watchHistory: setwatchHistory
+        });
     }
     
     return (
-
         <>
         {
             trackData ? (
