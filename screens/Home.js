@@ -4,7 +4,10 @@ import { topAiring, recentEpisode } from '../utils/data'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Carousel from 'react-native-anchor-carousel';
 import themeStyles from "../config/styles";
-import { LinearGradient } from "expo-linear-gradient";
+import { getData } from '../utils/storage';
+import WatchHistory from '../component/WatchHistory';
+import Title from '../component/Title';
+import Card from '../component/Card';
 
 
 const {width: windowWidth} = Dimensions.get('window');
@@ -14,6 +17,7 @@ const Home = ({navigation}) => {
 
     const [topAiringAnime, setTopAiringAnime] = useState([]);
     const [recentAnime, setRecentAnime] = useState([]);
+    const [watchHistory, setwatchHistory] = useState([]);
     const [trackData, settrackData] = useState(true);
     const carouselRef = useRef(null);
      
@@ -23,6 +27,10 @@ const Home = ({navigation}) => {
             try {
                 let data = await topAiring();
                 const recentData =  await recentEpisode();
+                const watchHistoryData = await getData('recentAnimeWatch');
+                if(watchHistoryData !== null){
+                    setwatchHistory(watchHistoryData);
+                }
                 setRecentAnime(recentData);
                 setTopAiringAnime(data);
                 settrackData(false);
@@ -39,7 +47,7 @@ const Home = ({navigation}) => {
         return ()=>{
             isCancelled = true;
         }
-    },[])
+    },[watchHistory])
 
 
     function handleAnime(id){
@@ -71,40 +79,38 @@ const Home = ({navigation}) => {
                         <Ionicons name="search-outline" size={28} color={themeStyles.colors.accentColor} />
                     </Pressable>
                 </View>
-                <Carousel
-                    ref={carouselRef}
-                    data={recentAnime}
-                    renderItem={({item})=>(
-                        <TouchableOpacity style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
-                            <ImageBackground source={{uri: item.image}} style={styles.carsoulPoster}>
-                                <LinearGradient colors={["#bfafb2","#000"]} style={styles.overlay} />
-                                <Text style={styles.carsoulTitle}>{item.title}</Text>
-                            </ImageBackground>
-                        </TouchableOpacity>
-                    )}
-                    style={styles.carousel}
-                    itemWidth={0.8 * windowWidth}
-                    containerWidth={windowWidth}
-                    separatorWidth={10}
-                />
-                
-
-                <View style={styles.catContainer}>
-                    <Ionicons name="apps-outline" size={18} color={themeStyles.colors.accentColor} />
-                    <Text style={styles.catTitle}>Top <Text style={{fontFamily: "pop-regular"}}>Airing Anime</Text></Text>
-                </View>
-
+        
                 <FlatList
                 data={topAiringAnime}    
                 renderItem={({item})=>(
-                    <TouchableOpacity style={styles.cardBody} onPress={()=>handleAnime(item.id)}>
-                        <Image style={styles.cardImage} source={{uri: item.image}}/>
-                        <Text style={styles.cardTitle}>{`${item.title.substr(0, 20)}...`}</Text>
-                    </TouchableOpacity>
+                    <Card item={item} animeHandle={handleAnime} cardStyle={styles.cardBody} />
                 )}
                 keyExtractor={(item)=> item.id}
                 numColumns={3}
                 showsVerticalScrollIndicator={false}
+                ListHeaderComponent={
+                    <>
+                        <Carousel
+                            ref={carouselRef}
+                            data={recentAnime}
+                            renderItem={({item})=>(
+                                <TouchableOpacity style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
+                                    <ImageBackground source={{uri: item.image}} style={styles.carsoulPoster}>
+                                        <Text style={styles.carsoulTitle}>{item.title}</Text>
+                                    </ImageBackground>
+                                </TouchableOpacity>
+                            )}
+                            style={styles.carousel}
+                            itemWidth={0.9 * windowWidth}
+                            containerWidth={windowWidth}
+                            separatorWidth={10}
+                        />
+                     
+                        {watchHistory.length > 0 && <WatchHistory data={watchHistory} animeHandle= {handleAnime} /> }
+                        
+                        <Title boldTitle="Top" NormalTitle="Airing Anime" icon="apps-outline" />
+                    </>
+                }
                 />
             </View>
             )
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
     },
     Header:{
         marginTop: 60,
-        paddingBottom: 18,
+        paddingBottom: 10,
         flexDirection: 'row',
         justifyContent: "space-between",
         paddingHorizontal: 10,
@@ -148,8 +154,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     cardBody:{
-        marginHorizontal: 10,
-        width: "28%",
+        marginHorizontal: 8,
+        width: "30%",
         elevation: 4,
         marginVertical: 5
     },
@@ -179,15 +185,9 @@ const styles = StyleSheet.create({
         height: 250,
         marginTop: 10
     },
-    overlay:{
-        height: "25%",
-        width: "100%",
-        opacity: .4,
-        bottom: 0,
-        position: 'absolute',
-      }, 
     carouselSlide:{
         width: "100%",
+        maxHeight: 220,
         elevation: 4,
         borderRadius: 10,
     },
@@ -206,20 +206,7 @@ const styles = StyleSheet.create({
         bottom: 10,
         marginHorizontal: 10
     },
-    catContainer:{
-        marginVertical: 20,
-        marginHorizontal: 10,
-        flexDirection: 'row',
-        alignItems: "center"
-
-    },
-    catTitle:{
-        fontSize: 18,
-        color: "#fff",
-        fontFamily: "pop-medium",
-        marginHorizontal: 10
-    }
-
+   
 })
 
 export default Home

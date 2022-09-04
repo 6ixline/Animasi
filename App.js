@@ -8,6 +8,7 @@ import Home from './screens/Home';
 import Animedetails from './screens/Animedetails';
 import Episodewatch from './screens/Episodewatch';
 import Search from './screens/Search';
+import Watchlist from './screens/Watchlist';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ export default function App() {
             <Stack.Screen  name='Animedetails' component={Animedetails} options={{ headerShown: false }}  />
             <Stack.Screen  name='Episodewatch' component={Episodewatch} options={{ headerShown: false }}  />
             <Stack.Screen  name='Search' component={Search} options={{ headerShown: false }}  />
+            <Stack.Screen  name='Watchlist' component={Watchlist} options={{ headerShown: false }}  />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

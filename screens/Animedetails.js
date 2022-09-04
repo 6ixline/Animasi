@@ -1,9 +1,10 @@
-import { View, Text, ImageBackground, ActivityIndicator, Image,StyleSheet, FlatList,Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, ImageBackground, ActivityIndicator, Image, StyleSheet, FlatList, Pressable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAnimeInfo } from '../utils/data';
 import themeStyles from "../config/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { storeData, getData } from '../utils/storage';
 
 
 const Animedetails = ({route, navigation}) => {
@@ -11,6 +12,7 @@ const Animedetails = ({route, navigation}) => {
   const [animeDetails, setAnimeDetails] = useState([]);
   const [checkData, setcheckData] = useState(true);
   const [episodeLists, setepisodeList] = useState([]);
+  const [recentAnimeList, setrecentAnimeList] = useState([]);
 
   useEffect(()=>{
     let isCancelled = false;
@@ -31,13 +33,39 @@ const Animedetails = ({route, navigation}) => {
     }
   },[])
 
-  function handleEpisode(id){
+  useEffect(()=>{
+    let isCancelled = false;
+    async function getRecentAnimeList(){
+      const recentAnimeData = await getData('recentAnimeWatch');
+      if(recentAnimeData !== null){
+        setrecentAnimeList(recentAnimeData);
+      }
+    }
+    if(!isCancelled){
+      getRecentAnimeList();
+    }
+    return ()=>{
+      isCancelled = true
+    }
+  }, [])
+
+  async function handleEpisode(id){
+    try {
+        const data = [animeDetails,...recentAnimeList.filter(item => item.id !== animeDetails.id)];
+        setrecentAnimeList(data)
+        await storeData(data, 'recentAnimeWatch')
+    } catch (error) {
+      console.log(error)
+    }
+
     navigation.navigate("Episodewatch", {
       id,
       animeDetails: animeDetails,
       episodeLists
     })
   }
+
+
 
   return (
     <View style={{flex: 1}}>

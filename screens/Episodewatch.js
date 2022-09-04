@@ -46,7 +46,8 @@ const Episodewatch = ({route}) => {
     }
   }, [videoId, videoStatus])
 
-  function handleEpisode(id)
+
+  async function handleEpisode(id)
   {
     setVideoId(id)
     setvideoStatus(true)
