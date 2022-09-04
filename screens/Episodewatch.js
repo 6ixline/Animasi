@@ -81,6 +81,7 @@ const Episodewatch = ({route}) => {
           
               <View style={{flex: 1, height: 200}}>
                   <FlatList
+                    initialNumToRender={10}
                     style={{flex: 1}}
                     data={episodeLists}
                     renderItem={({item})=>(
