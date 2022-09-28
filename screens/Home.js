@@ -1,6 +1,6 @@
 import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity, FlatList, Pressable, Dimensions, ImageBackground } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
-import { topAiring, recentEpisode } from '../utils/data'
+import { getpopularAnime, getTrendingAnime } from '../utils/data'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Carousel from 'react-native-anchor-carousel';
 import themeStyles from "../config/styles";
@@ -15,8 +15,8 @@ const {width: windowWidth} = Dimensions.get('window');
 
 const Home = ({navigation}) => {
 
-    const [topAiringAnime, setTopAiringAnime] = useState([]);
-    const [recentAnime, setRecentAnime] = useState([]);
+    const [popularAnime, setPopularAnime] = useState([]);
+    const [trendingAnime, setTrendingAnime] = useState([]);
     const [watchHistory, setwatchHistory] = useState([]);
     const [trackData, settrackData] = useState(true);
     const carouselRef = useRef(null);
@@ -25,10 +25,10 @@ const Home = ({navigation}) => {
         let isCancelled = false;
         async function fetchAnime(){
             try {
-                let data = await topAiring();
-                const recentData =  await recentEpisode();
-                setRecentAnime(recentData);
-                setTopAiringAnime(data);
+                let data = await getpopularAnime();
+                const trendingData =  await getTrendingAnime();
+                setTrendingAnime(trendingData);
+                setPopularAnime(data);
                 settrackData(false);
             } catch (error) {
                 console.log(error)
@@ -68,9 +68,13 @@ const Home = ({navigation}) => {
         });
     }
 
+    function hanldeWatchHistory(data){
+        setwatchHistory(data);
+    }
+
     function handleSearch(){
         navigation.navigate("Search", {
-            watchHistory: setwatchHistory
+            watchHistory: hanldeWatchHistory
         });
     }
     
@@ -94,7 +98,7 @@ const Home = ({navigation}) => {
                 </View>
         
                 <FlatList
-                data={topAiringAnime}    
+                data={trendingAnime}    
                 renderItem={({item})=>(
                     <Card item={item} animeHandle={handleAnime} cardStyle={styles.cardBody} />
                 )}
@@ -105,14 +109,16 @@ const Home = ({navigation}) => {
                     <>
                         <Carousel
                             ref={carouselRef}
-                            data={recentAnime}
-                            renderItem={({item})=>(
+                            data={popularAnime}
+                            renderItem={({item})=>{
+                            return (
+                                
                                 <TouchableOpacity style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
-                                    <ImageBackground source={{uri: item.image}} style={styles.carsoulPoster}>
-                                        <Text style={styles.carsoulTitle}>{item.title}</Text>
-                                    </ImageBackground>
+                                    {item.cover?.includes("banner") && <ImageBackground source={{uri: item.cover}} style={styles.carsoulPoster}>
+                                        <Text style={styles.carsoulTitle}>{item.title.english != "" ? item.title.english : item.title.romaji}</Text>
+                                    </ImageBackground>}
                                 </TouchableOpacity>
-                            )}
+                            )}}
                             style={styles.carousel}
                             itemWidth={0.9 * windowWidth}
                             containerWidth={windowWidth}
@@ -209,7 +215,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: "100%",
         borderRadius: 10,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     carsoulTitle:{
         fontSize: 14,

@@ -2,10 +2,11 @@ import { Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import React from 'react'
 
 const Card = ({item, animeHandle, cardStyle}) => {
+
   return (
     <TouchableOpacity style={[styles.watchcardBody, cardStyle]} onPress={()=>animeHandle(item.id)}>
         <Image style={styles.cardImage} source={{uri: item.image}}/>
-        <Text style={styles.cardTitle}>{`${item.title.substr(0, 20)}...`}</Text>
+        <Text style={styles.cardTitle}>{`${item.title.english?.substr(0,12)}`}{item.title.english?.length > 12 && "..."}</Text>
     </TouchableOpacity>
   )
 }
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "pop-medium",
         padding: 5,
-        color: "#fff"
+        color: "#fff",
     },
 })
 

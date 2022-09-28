@@ -1,8 +1,18 @@
 import axios from "axios";
 
-export async function topAiring(){
+const apiUrl = "https://api.consumet.org/";
+
+export async function getpopularAnime(){
     try {
-        const data = await axios.get("https://consumet-api.herokuapp.com/anime/gogoanime/top-airing");
+        const data = await axios.get(`${apiUrl}meta/anilist/popular`);
+        return data.data.results;
+    } catch (error) {
+        return [];
+    }
+}
+export async function getTrendingAnime(){
+    try {
+        const data = await axios.get(`${apiUrl}meta/anilist/trending`);
         return data.data.results;
     } catch (error) {
         return [];
@@ -10,15 +20,16 @@ export async function topAiring(){
 }
 export async function recentEpisode(){
     try {
-        const data = await axios.get("https://consumet-api.herokuapp.com/anime/gogoanime/recent-episodes");
+        const data = await axios.get(`${apiUrl}meta/anilist/recent-episodes`);
         return data.data.results;
     } catch (error) {
         return [];
     }
 }
+
 export async function searchEpisode(query){
     try {
-        const data = await axios.get(`https://consumet-api.herokuapp.com/anime/gogoanime/${query}`);
+        const data = await axios.get(`${apiUrl}/anime/gogoanime/${query}`);
         return data.data.results;
     } catch (error) {
         return [];
@@ -26,7 +37,7 @@ export async function searchEpisode(query){
 }
 export async function getAnimeInfo(id){
     try {
-        const data = await axios.get(`https://consumet-api.herokuapp.com/anime/gogoanime/info/${id}`);
+        const data = await axios.get(`${apiUrl}meta/anilist/info/${id}`);
         return data.data;
     } catch (error) {
         return [];
@@ -36,7 +47,7 @@ export async function getAnimeInfo(id){
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 export async function getAnimeVideoLink(id){
     try {
-        const data = await axios.get(`https://consumet-api.herokuapp.com/anime/gogoanime/watch/${id}`, {
+        const data = await axios.get(`${apiUrl}meta/anilist/watch/${id}`, {
             headers: {
                 'User-Agent': USER_AGENT,
                 'X-Requested-With': 'XMLHttpRequest',

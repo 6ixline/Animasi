@@ -6,6 +6,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { storeData, getData } from '../utils/storage';
 
+const cleanHTML= (html) => {
+  return html.replace(/<[^>]*>?/gm, "");
+};
 
 const Animedetails = ({route, navigation}) => {
 
@@ -78,12 +81,12 @@ const Animedetails = ({route, navigation}) => {
       ) :
       (<View style={styles.mainContent}>
         <View style={styles.firsthalf}>
-        <ImageBackground style={styles.bannerImage} source={{uri: animeDetails.image}}>
+        <ImageBackground style={styles.bannerImage} source={{uri: animeDetails?.cover != "" ? animeDetails.cover : animeDetails.image }}>
           <LinearGradient   colors={["#bfafb2","#000"]} style={styles.overlay}></LinearGradient>
           <Pressable onPress={navigation.goBack} style={{position: 'absolute', top: "18%", left: "5%"}}>
               <Ionicons name="arrow-back-outline" size={25} color="#fff" />
           </Pressable>
-          <Text style={styles.AnimeTitle}>{animeDetails.title}</Text>
+          <Text style={styles.AnimeTitle}>{animeDetails.title.english}</Text>
           <Image source={{uri: animeDetails.image}} style={styles.CoverImage} />
         </ImageBackground>
         </View>
@@ -110,7 +113,7 @@ const Animedetails = ({route, navigation}) => {
                   <>
                     <View style={{paddingTop: 20}}>
                       <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5}}>Description</Text>
-                      <Text style={styles.description}>{animeDetails.description}</Text>
+                      <Text style={styles.description}>{cleanHTML(animeDetails.description)}</Text>
                       <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Geners</Text>
                       <View style={{fontFamily: 'pop-regular', color: "#fff", flexDirection: "row", flexWrap: 'wrap'}}>{(animeDetails.genres?.map((item)=>(
                         <View key={`${item}1`} style={styles.genersContainer}>

@@ -95,7 +95,7 @@ const Episodewatch = ({route}) => {
                     ListHeaderComponent={
                     <>
                       <View style={{paddingTop: 20}}>
-                        <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5, fontSize: 22, color: themeStyles.colors.accentColor}}>{animeDetails.title}</Text>
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5, fontSize: 22, color: themeStyles.colors.accentColor}}>{animeDetails.title.english}</Text>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5}}>Description</Text>
                         <Text style={styles.description}>{animeDetails.description}</Text>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Geners</Text>
