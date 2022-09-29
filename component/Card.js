@@ -6,7 +6,7 @@ const Card = ({item, animeHandle, cardStyle}) => {
   return (
     <TouchableOpacity style={[styles.watchcardBody, cardStyle]} onPress={()=>animeHandle(item.id)}>
         <Image style={styles.cardImage} source={{uri: item.image}}/>
-        <Text style={styles.cardTitle}>{`${item.title.english?.substr(0,12)}`}{item.title.english?.length > 12 && "..."}</Text>
+        <Text style={styles.cardTitle}>{`${item.title.english != "" ? item.title.english?.substr(0,12) : item.title.romaji?.substr(0,12)}`}{item.title.english?.length > 12 && "..."}</Text>
     </TouchableOpacity>
   )
 }

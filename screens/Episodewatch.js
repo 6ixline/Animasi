@@ -1,11 +1,17 @@
-import { View, Text, ActivityIndicator,StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, Switch,ActivityIndicator,StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
+import ReadMore from 'react-native-read-more-text';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { getAnimeVideoLink } from '../utils/data';
 import {Dimensions} from 'react-native';
 import themeStyles from "../config/styles";
 import Ionicons from '@expo/vector-icons/Ionicons';
+
+
+const cleanHTML= (html) => {
+  return html.replace(/<[^>]*>?/gm, "");
+};
 
 
 const Episodewatch = ({route}) => {
@@ -47,10 +53,32 @@ const Episodewatch = ({route}) => {
   }, [videoId, videoStatus])
 
 
+  
+
   async function handleEpisode(id)
   {
     setVideoId(id)
     setvideoStatus(true)
+  }
+
+  const _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{color: themeStyles.colors.accentColor, marginTop: 5, marginBottom: 10}} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+ 
+  const _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{color:themeStyles.colors.accentColor, marginTop: 5, marginBottom: 10}} onPress={handlePress}>
+        Show less
+      </Text>
+    );
+  }
+ 
+  const _handleTextReady = () => {
+    // ...
   }
 
   return (
@@ -97,23 +125,34 @@ const Episodewatch = ({route}) => {
                       <View style={{paddingTop: 20}}>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5, fontSize: 22, color: themeStyles.colors.accentColor}}>{animeDetails.title.english}</Text>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5}}>Description</Text>
-                        <Text style={styles.description}>{animeDetails.description}</Text>
+                        <ReadMore
+                        numberOfLines={5}
+                        renderTruncatedFooter={_renderTruncatedFooter}
+                        renderRevealedFooter={_renderRevealedFooter}
+                        onReady={_handleTextReady}>
+                          <Text style={styles.description}>{cleanHTML(animeDetails.description)}</Text>
+                        </ReadMore>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Geners</Text>
                         <View style={{fontFamily: 'pop-regular', color: "#fff", flexDirection: "row", flexWrap: 'wrap'}}>{(animeDetails.genres?.map((item)=>(
                           <View key={`${item}1`} style={styles.genersContainer}>
                             <Text key={item} style={styles.geners}>{item}</Text>
                           </View>
                         )))}</View>
-                        <View style={{flexDirection: 'row', flexWrap: "wrap", marginTop: 10}}>
-                          <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Status:</Text>
-                          <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.status}</Text>
-                          <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Release Date:</Text>
-                          <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.releaseDate}</Text>
-                          <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Sub Or Dub:</Text>
-                          <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.subOrDub.toUpperCase()}</Text>
-                          <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Anime type:</Text>
-                          <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.type}</Text>
-                        </View>
+                        <View style={{flexDirection: 'row', flexWrap: "wrap", justifyContent: 'center',alignItems: 'center'}}>
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Sub Or Dub:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.subOrDub.toUpperCase()}</Text>
+                          
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Status:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.status}</Text>
+                       
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Rating:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.rating}</Text>
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Release Date:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.releaseDate}</Text>
+                        
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Anime type:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.type}</Text>
+                      </View>
                       </View>
                       <View style={{flexDirection: "row", alignItems: "center", marginVertical: 10}}>
                           <Ionicons  name="list-outline" size={25} color={themeStyles.colors.accentColor} />

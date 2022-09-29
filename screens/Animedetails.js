@@ -1,5 +1,6 @@
-import { View, Text, ImageBackground, ActivityIndicator, Image, StyleSheet, FlatList, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, Switch, ImageBackground, ActivityIndicator, Image, StyleSheet, FlatList, Pressable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import ReadMore from 'react-native-read-more-text';
 import { getAnimeInfo } from '../utils/data';
 import themeStyles from "../config/styles";
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,6 +15,7 @@ const Animedetails = ({route, navigation}) => {
 
   const [animeDetails, setAnimeDetails] = useState([]);
   const [checkData, setcheckData] = useState(true);
+  const [subordub, setSubOrDub] = useState(true);
   const [episodeLists, setepisodeList] = useState([]);
   const [recentAnimeList, setrecentAnimeList] = useState([]);
 
@@ -21,7 +23,7 @@ const Animedetails = ({route, navigation}) => {
     let isCancelled = false;
     const id  = route.params.id;
     async function getAnimeDetails (){
-      const animeData = await getAnimeInfo(id)
+      const animeData = await getAnimeInfo(id, subordub)
       setAnimeDetails(animeData);
       setepisodeList(animeData.episodes.reverse())
       setcheckData(false);
@@ -34,7 +36,12 @@ const Animedetails = ({route, navigation}) => {
     return ()=>{
       isCancelled = true
     }
-  },[])
+  },[subordub])
+
+  const handleDubOrSub = ()=>{
+    setcheckData(true);
+    setSubOrDub(!subordub);
+  }
 
   useEffect(()=>{
     let isCancelled = false;
@@ -69,6 +76,25 @@ const Animedetails = ({route, navigation}) => {
     })
   }
 
+  const _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{color: themeStyles.colors.accentColor, marginTop: 5, marginBottom: 10}} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+ 
+  const _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{color:themeStyles.colors.accentColor, marginTop: 5, marginBottom: 10}} onPress={handlePress}>
+        Show less
+      </Text>
+    );
+  }
+ 
+  const _handleTextReady = () => {
+    // ...
+  }
 
 
   return (
@@ -98,6 +124,7 @@ const Animedetails = ({route, navigation}) => {
             <View style={{flex: 1, height: 200}}>
                 <FlatList
                   initialNumToRender={10}
+                  maxToRenderPerBatch={10}
                   style={{flex: 1}}
                   data={episodeLists}
                   renderItem={({item})=>(
@@ -113,21 +140,59 @@ const Animedetails = ({route, navigation}) => {
                   <>
                     <View style={{paddingTop: 20}}>
                       <Text style={{fontFamily: 'pop-bold', color: "#fff",paddingBottom: 5}}>Description</Text>
-                      <Text style={styles.description}>{cleanHTML(animeDetails.description)}</Text>
+                      <ReadMore
+                        numberOfLines={5}
+                        renderTruncatedFooter={_renderTruncatedFooter}
+                        renderRevealedFooter={_renderRevealedFooter}
+                        onReady={_handleTextReady}>
+                        <Text style={styles.description}>{cleanHTML(animeDetails.description)}</Text>
+                      </ReadMore>
+                      <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Characters</Text>
+                      
+                      <FlatList
+                        style={{flex: 1}}
+                        data={animeDetails.characters}
+                        keyExtractor={(item)=> item.id}
+                        renderItem={(item)=> (
+                          <TouchableOpacity style={[styles.watchcardBody]}>
+                            <Image style={styles.cardImage} source={{uri: item.item.image}}/>
+                            <Text style={[styles.cardTitle, {marginTop: 5}]}> {item.item.name.userPreferred}</Text>
+                            <Text style={[styles.cardTitle, {fontSize: 12}]}>({item.item.role})</Text>
+                          </TouchableOpacity>
+                        )} 
+                        horizontal={true}                     
+                      
+                      />
+
+
+                     
                       <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Geners</Text>
                       <View style={{fontFamily: 'pop-regular', color: "#fff", flexDirection: "row", flexWrap: 'wrap'}}>{(animeDetails.genres?.map((item)=>(
                         <View key={`${item}1`} style={styles.genersContainer}>
                           <Text key={item} style={styles.geners}>{item}</Text>
                         </View>
                       )))}</View>
-                      <View style={{flexDirection: 'row', flexWrap: "wrap", marginTop: 10}}>
-                        <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Status:</Text>
+                      <View style={{flexDirection: 'row', flexWrap: "wrap", justifyContent: 'center',alignItems: 'center'}}>
+                        <View style={{flexDirection: "row",  alignItems: "center"}}>
+                          <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>Sub</Text>
+                          <Switch
+                            trackColor={{ false: "#808080", true: "#808080" }}
+                            thumbColor={subordub ? themeStyles.colors.accentColor : "#f4f3f4"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={handleDubOrSub}
+                            value={subordub}
+                          />
+                            <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>Dub</Text>
+                        </View>
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Status:</Text>
                         <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.status}</Text>
-                        <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Release Date:</Text>
+                       
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Rating:</Text>
+                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.rating}</Text>
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Release Date:</Text>
                         <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.releaseDate}</Text>
-                        <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Sub Or Dub:</Text>
-                        <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.subOrDub.toUpperCase()}</Text>
-                        <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Anime type:</Text>
+                        
+                        <Text style={{fontFamily: 'pop-bold', color: "#fff"}}>Anime type:</Text>
                         <Text style={{fontFamily: 'pop-regular', color: themeStyles.colors.accentColor, paddingHorizontal: 10}}>{animeDetails.type}</Text>
                       </View>
                     </View>
@@ -173,6 +238,23 @@ const styles = StyleSheet.create({
     opacity: .7,
     position: 'absolute',
   }, 
+  watchcardBody:{
+    marginHorizontal: 8,
+    elevation: 4,
+    width: 120
+  },
+  cardImage:{
+    width: "100%",
+    height: 120,
+    minWidth: 120,
+    borderRadius: 10,
+  },
+  cardTitle:{
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: "pop-medium",
+    color: "#fff",
+  },
   description:{
     fontFamily: "pop-regular",
     color: '#fff',

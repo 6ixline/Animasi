@@ -12,7 +12,7 @@ export async function getpopularAnime(){
 }
 export async function getTrendingAnime(){
     try {
-        const data = await axios.get(`${apiUrl}meta/anilist/trending`);
+        const data = await axios.get(`${apiUrl}meta/anilist/trending?perPage=18`);
         return data.data.results;
     } catch (error) {
         return [];
@@ -29,15 +29,15 @@ export async function recentEpisode(){
 
 export async function searchEpisode(query){
     try {
-        const data = await axios.get(`${apiUrl}/anime/gogoanime/${query}`);
+        const data = await axios.get(`${apiUrl}meta/anilist/advanced-search?query=${query}&perPage=16`);
         return data.data.results;
     } catch (error) {
         return [];
     }
 }
-export async function getAnimeInfo(id){
+export async function getAnimeInfo(id, dub = false){
     try {
-        const data = await axios.get(`${apiUrl}meta/anilist/info/${id}`);
+        const data = await axios.get(`${apiUrl}meta/anilist/info/${id}?provider=gogoanime&dub=${dub}`);
         return data.data;
     } catch (error) {
         return [];

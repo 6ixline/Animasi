@@ -60,18 +60,19 @@ const Home = ({navigation}) => {
         }
     },[])
 
-
-    function handleAnime(id){
-        navigation.navigate("Animedetails", {
-            id:id,
-            watchHistory: setwatchHistory
-        });
-    }
-
     function hanldeWatchHistory(data){
         setwatchHistory(data);
     }
 
+
+    function handleAnime(id){
+        navigation.navigate("Animedetails", {
+            id:id,
+            watchHistory: hanldeWatchHistory
+        });
+    }
+
+   
     function handleSearch(){
         navigation.navigate("Search", {
             watchHistory: hanldeWatchHistory
