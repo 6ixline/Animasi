@@ -47,7 +47,8 @@ const Home = ({navigation}) => {
         let isCancelled = false;
         async function fetchWatchHistory(){
             const watchHistoryData = await getData('recentAnimeWatch');
-            if(watchHistoryData !== null){
+            if(watchHistoryData !== null && watchHistoryData[0].length > 0){
+                console.log(watchHistoryData);
                 setwatchHistory(watchHistoryData);
             }
         }

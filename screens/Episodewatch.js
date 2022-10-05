@@ -18,6 +18,7 @@ const Episodewatch = ({route}) => {
   const [videoUrl, setVideoUrl] = useState('');
   const [Referer, setReferer] = useState('');
   const [animeDetails, setAnimeDetails] = useState([]);
+  const [backupUrl, setbackupUrl] = useState([]);
   const [episodeLists, setepisodeList] = useState([]);
   const [videoId, setVideoId] = useState(route.params.id);
   const [videoStatus, setvideoStatus] = useState(true);
@@ -38,7 +39,8 @@ const Episodewatch = ({route}) => {
     let isCancelled = false;
     async function getVideoUrl(){
       const VideoData = await getAnimeVideoLink(videoId);
-      setVideoUrl(VideoData.sources[0].url);
+      setVideoUrl(VideoData.sources[3].url);
+      setbackupUrl(VideoData.sources[VideoData.sources.length - 1].url);
       setReferer(VideoData.headers.Referer);
       setAnimeDetails(route.params.animeDetails)
       setepisodeList(route.params.episodeLists)
@@ -77,9 +79,11 @@ const Episodewatch = ({route}) => {
     );
   }
  
-  const _handleTextReady = () => {
-    // ...
+  const handleEpisodeurl = () => {
+    setVideoUrl(backupUrl)
   }
+
+  
 
   return (
     <View style={{flex: 1}}>
@@ -100,9 +104,15 @@ const Episodewatch = ({route}) => {
               shouldPlay
               onFullscreenUpdate={setOrientation}
               style={{ width: "100%", height: 238 }}
+              posterSource={{uri: "https://media.tenor.com/Qp72t2HFhA0AAAAC/tako-tentacult.gif"}}
+              usePoster={true}
+              posterStyle={{
+                resizeMode: "cover"
+              }}
               useNativeControls
               onError={(e)=>{
                 console.log(e)
+                handleEpisodeurl();
               }}
               />
               <View style={{paddingHorizontal: 10, flex: 1, backgroundColor: "#000"}}>
@@ -129,7 +139,7 @@ const Episodewatch = ({route}) => {
                         numberOfLines={5}
                         renderTruncatedFooter={_renderTruncatedFooter}
                         renderRevealedFooter={_renderRevealedFooter}
-                        onReady={_handleTextReady}>
+                       >
                           <Text style={styles.description}>{cleanHTML(animeDetails.description)}</Text>
                         </ReadMore>
                         <Text style={{fontFamily: 'pop-bold', color: "#fff", paddingBottom: 10}}>Geners</Text>
