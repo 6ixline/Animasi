@@ -12,7 +12,7 @@ export async function getpopularAnime(){
 }
 export async function getTrendingAnime(){
     try {
-        const data = await axios.get(`${apiUrl}meta/anilist/trending?perPage=18`);
+        const data = await axios.get(`${apiUrl}meta/anilist/trending?perPage=24`);
         return data.data.results;
     } catch (error) {
         return [];
