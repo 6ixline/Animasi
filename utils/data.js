@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "https://animasi-api.herokuapp.com/";
+const apiUrl = "https://api.consumet.org/";
 
 export async function getpopularAnime(){
     try {
