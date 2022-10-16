@@ -1,16 +1,14 @@
-import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity, FlatList, Pressable, Dimensions, ImageBackground } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet, Image, FlatList, Pressable, Dimensions, ImageBackground } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import { getpopularAnime, getTrendingAnime } from '../utils/data'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Carousel from 'react-native-anchor-carousel';
+import Carousel from 'react-native-reanimated-carousel';
 import themeStyles from "../config/styles";
 import { getData } from '../utils/storage';
 import WatchHistory from '../component/WatchHistory';
 import Title from '../component/Title';
 import Card from '../component/Card';
-
-
-const {width: windowWidth} = Dimensions.get('window');
+import IslandNav from '../navigation/islandNav';
 
 
 const Home = ({navigation}) => {
@@ -20,6 +18,7 @@ const Home = ({navigation}) => {
     const [watchHistory, setwatchHistory] = useState([]);
     const [trackData, settrackData] = useState(true);
     const carouselRef = useRef(null);
+    const width = Dimensions.get('window').width;
      
     useEffect(()=>{
         let isCancelled = false;
@@ -47,8 +46,7 @@ const Home = ({navigation}) => {
         let isCancelled = false;
         async function fetchWatchHistory(){
             const watchHistoryData = await getData('recentAnimeWatch');
-            if(watchHistoryData !== null && watchHistoryData[0].length > 0){
-                console.log(watchHistoryData);
+            if(watchHistoryData !== null){
                 setwatchHistory(watchHistoryData);
             }
         }
@@ -73,7 +71,6 @@ const Home = ({navigation}) => {
         });
     }
 
-   
     function handleSearch(){
         navigation.navigate("Search", {
             watchHistory: hanldeWatchHistory
@@ -109,22 +106,27 @@ const Home = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={
                     <>
-                        <Carousel
-                            ref={carouselRef}
+                       
+                         <Carousel
+                            loop
+                            width={width}
+                            height={width / 2}
+                            autoPlay={true}
                             data={popularAnime}
-                            renderItem={({item})=>{
-                            return (
-                                
-                                <TouchableOpacity style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
+                            mode="horizontal-stack"
+                            modeConfig={{
+                                snapDirection: "left",
+                                stackInterval:  18,
+                            }}
+                            pagingEnabled={true}
+                            scrollAnimationDuration={2000}
+                            renderItem={({item}) => (
+                                <Pressable style={styles.carouselSlide} onPress={()=>handleAnime(item.id)}>
                                     {item.cover?.includes("banner") && <ImageBackground source={{uri: item.cover}} style={styles.carsoulPoster}>
                                         <Text style={styles.carsoulTitle}>{item.title.english != "" ? item.title.english : item.title.romaji}</Text>
                                     </ImageBackground>}
-                                </TouchableOpacity>
-                            )}}
-                            style={styles.carousel}
-                            itemWidth={0.9 * windowWidth}
-                            containerWidth={windowWidth}
-                            separatorWidth={10}
+                                </Pressable>
+                            )}
                         />
                      
                         {watchHistory.length > 0 && <WatchHistory data={watchHistory} animeHandle= {handleAnime} /> }
@@ -136,6 +138,7 @@ const Home = ({navigation}) => {
             </View>
             )
         }
+            {/* <IslandNav /> */}
         </>
         
     )
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
         maxHeight: 220,
         elevation: 4,
         borderRadius: 10,
+        paddingHorizontal: 10
     },
     carsoulPoster:{
         height: "100%",
