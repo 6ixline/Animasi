@@ -26,7 +26,7 @@
     "expo-status-bar": "~1.4.0",
     "expo-video-player": "^2.1.0",
     "react": "18.0.0",
-    "react-native": "0.69.5",
+    "react-native": "0.75.2",
     "react-native-anchor-carousel": "^4.0.1",
     "react-native-animated-nav-tab-bar": "^3.1.8",
     "react-native-gesture-handler": "^2.7.1",
