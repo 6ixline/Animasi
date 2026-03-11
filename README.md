@@ -39,11 +39,11 @@
 
 <div align="center">
 
-<img alt="Splash" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-33-13-10_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="180"/>
-<img alt="Home" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-03-35-76_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="180"/>
-<img alt="Search" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-04-20-29_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="180"/>
-<img alt="Details" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-03-49-87_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="180"/>
-<img alt="Episode Watch" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-33-43-38_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="180"/>
+<img alt="Splash" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-33-13-10_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="150"/>
+<img alt="Home" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-03-35-76_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="150"/>
+<img alt="Search" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-04-20-29_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="150"/>
+<img alt="Details" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-03-49-87_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="150"/>
+<img alt="Episode Watch" src="https://github.com/6ixline/Animasi/blob/main/screenshot/Screenshot_2022-09-04-21-33-43-38_d06dc5dcfcdb6001e9885a098fe0365c.jpg?raw=true" width="150"/>
 
 </div>
 
