@@ -17,7 +17,7 @@
 
 <br/>
 
-> A fully-featured **anime streaming mobile app** for Android — browse trending anime, search titles, watch episodes, and track your watch history. Officially featured in the [Consumet Showcase](https://consumet.org/showcase/animasi/). ⭐ 47 stars · 🍴 14 forks
+> A fully-featured **anime streaming mobile app** for Android - browse trending anime, search titles, watch episodes, and track your watch history. Officially featured in the [Consumet Showcase](https://consumet.org/showcase/animasi/). ⭐ 47 stars · 🍴 14 forks
 
 </div>
 
@@ -51,12 +51,12 @@
 
 ## ✨ Features
 
-- 🏠 **Home Screen** — Browse trending, popular, and recently updated anime
-- 🔍 **Search** — Search any anime title instantly via Consumet API
-- 📺 **Episode Watch** — Stream episodes directly in-app with a built-in video player
-- 📄 **Anime Details** — Full details page with synopsis, episode list, genres and status
-- 📜 **Watch History** — Automatically tracks episodes you've watched
-- 🎨 **Clean UI** — Dark themed, mobile-first design built for Android
+- 🏠 **Home Screen** - Browse trending, popular, and recently updated anime
+- 🔍 **Search** - Search any anime title instantly via Consumet API
+- 📺 **Episode Watch** - Stream episodes directly in-app with a built-in video player
+- 📄 **Anime Details** - Full details page with synopsis, episode list, genres and status
+- 📜 **Watch History** - Automatically tracks episodes you've watched
+- 🎨 **Clean UI** - Dark themed, mobile-first design built for Android
 
 ---
 
@@ -110,7 +110,7 @@ Animasi/
 ### Prerequisites
 
 - **Node.js** v16+
-- **Expo CLI** — `npm install -g expo-cli`
+- **Expo CLI** - `npm install -g expo-cli`
 - **Expo Go** app on your Android device or Android emulator
 
 ### Installation
@@ -128,8 +128,8 @@ expo start
 ```
 
 Then:
-- **On device** — Scan the QR code with the **Expo Go** app
-- **On emulator** — Press `a` to open on Android emulator
+- **On device** - Scan the QR code with the **Expo Go** app
+- **On emulator** - Press `a` to open on Android emulator
 
 ### Build APK
 
@@ -142,7 +142,7 @@ eas build --platform android --profile preview
 
 ## 🔌 API
 
-Powered by the **[Consumet API](https://github.com/consumet/consumet.ts)** — a free, open-source API for anime content from **GogoAnime**.
+Powered by the **[Consumet API](https://github.com/consumet/consumet.ts)** - a free, open-source API for anime content from **GogoAnime**.
 
 | Endpoint | Description |
 |----------|-------------|
@@ -157,7 +157,7 @@ Powered by the **[Consumet API](https://github.com/consumet/consumet.ts)** — a
 
 ## 🏆 Recognition
 
-Animasi is officially featured in the **[Consumet Showcase](https://consumet.org/showcase/animasi/)** — a curated list of apps built with the Consumet API.
+Animasi is officially featured in the **[Consumet Showcase](https://consumet.org/showcase/animasi/)** - a curated list of apps built with the Consumet API.
 
 ---
 
